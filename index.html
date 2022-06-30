@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1 id="tes"></h1>
+    <script>
+        window.onload = function() {
+            start()
+        };
+        const start = () => {
+            var form = document.getElementById('tes');
+            let socket = new WebSocket("ws://localhost:8888/status")
+            
+            // console.log("Attempting Websocket Connection");
+    
+            socket.onopen = () => {
+                // console.log("successfully connected");
+                socket.send("hay from client! tulul")
+            }
+            
+            socket.onclose = (event) => {
+                console.log("socket closed connection: ", event);
+            }
+    
+            socket.onmessage = (msg) => {
+                form.append(msg.data)
+                console.log(msg);
+            }
+    
+            socket.onerror = (error) => {
+                console.log("socket error: ", error);
+            }
+        }
+    </script>
+</body>
+</html>
